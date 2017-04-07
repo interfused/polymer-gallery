@@ -1,0 +1,133 @@
+<!-- <link rel="import"  href="https://polygit.org/polymer+2.0.0-rc.2/components/polymer/polymer-element.html"> -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+    <link rel="import" href="../src/gallery-element.html">
+<!-- https://www.polymer-project.org/2.0/docs/devguide/registering-elements#lifecycle-callbacks -->
+<dom-module id="gallery-project">
+
+<template>
+  <style>
+  :host {
+    display: block;
+  }
+  </style>
+  <h2>Hello [[prop1]]</h2>
+  <p>Your source file is: [[jsonsrc]]</p>
+  <div class="galleryBlock">
+    <div id="categories"><h3>Categories</h3>
+      <template is="dom-repeat" items="{{categoriesArr}}">
+     category item<br>
+</template>
+    </div>
+  <!-- content div -->
+  </div id="content">
+  <h3>Actual Content</h3>
+  <!--
+ 
+  <gallery-element category="destinations" alt-text="This is my first alt text" img-url="https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2014/10/yosemite.jpg">
+  <div slot="description">
+    This is the description. <h2>Standard html</h2> applies with <a href="http://google.com" >Links and all</a>
+  </div>
+</gallery-element>
+
+<gallery-element  alt-text="This is my second alt text" img-url="http://www.niagarafallslive.com/wp-content/uploads/2013/09/american-falls-1.jpg"></gallery-element>
+ 
+-->
+  </div>
+</div>
+
+
+
+</template>
+
+<script>
+jsonData = {};
+galleryItems = [];
+categoriesArr=[];
+
+function onlyUnique(value, index, self) { 
+  //http://stackoverflow.com/questions/1960473/unique-values-in-an-array
+    return self.indexOf(value) === index;
+}
+
+function loadJSON(path, success, error)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function()
+    {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                if (success)
+//                  jsonData = JSON.parse(xhr.responseText);
+                    success(JSON.parse(xhr.responseText));
+            } else {
+                if (error)
+                    error(xhr);
+            }
+        }
+    };
+    xhr.open("GET", path, true);
+    xhr.send();
+}
+
+function setupAllCategories(jsonObj){
+  galleryItems = jsonData.gallery_items;
+  var distinct = [];
+  for(i=0;i<galleryItems.length;i++){
+    if(distinct.indexOf(galleryItems[i].category) === -1  ){
+      distinct.push(galleryItems[i].category);
+    }
+  }
+//console.log('setupAllCategories for elements: '+jsonObj.gallery_items.length);
+console.log('setupAllCategories for elements: '+distinct.length);
+//return unique array
+return distinct;
+}
+</script>
+
+<script>
+  // Define the class for a new element called gallery-project
+  class GalleryProject extends Polymer.Element {
+    static get is() { return "gallery-project"; }
+    static get properties() {
+      return {
+        prop1: String,
+        jsonsrc: String
+      }
+    }
+    constructor() {
+      super();
+//      this.textContent = "I'm a gallery-project.";
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+
+    console.log('connected callback: '+this.jsonsrc);
+    
+    loadJSON(this.jsonsrc,
+         function(data) {
+      //  console.log(data);
+          jsonData=data;
+          console.log(jsonData); 
+          categoriesArr=setupAllCategories(jsonData);
+        },
+         function(xhr) { console.error(xhr); }
+);
+
+    // …
+  }
+
+    handleClick() {
+        if(!this.active){
+          console.log('Make me active');
+        }else{
+          console.log('make me inactive');
+        }
+        this.active = !this.active;
+      }
+
+  }
+  // Register the new element with the browser
+  customElements.define(GalleryProject.is, GalleryProject);
+  </script>
+</dom-module>

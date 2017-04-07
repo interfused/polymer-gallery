@@ -1,0 +1,177 @@
+<!-- <link rel="import"  href="https://polygit.org/polymer+2.0.0-rc.2/components/polymer/polymer-element.html"> --><html><head><link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<!-- https://www.polymer-project.org/2.0/docs/devguide/registering-elements#lifecycle-callbacks -->
+</head><body><dom-module id="gallery-element">
+
+<template>
+
+  <style include="myshared-styles">
+  :host{
+    font-size: 16px;
+    font-family: sans-serif;
+    display: block;
+    background: #212121;
+    color: #dddddd;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  :host a{color:#fff;}
+
+  ::slotted(*) {
+    font-family: sans-serif;
+/*    color:green; */
+  }
+  ::slotted(*) a {
+    font-family: sans-serif;
+    color:#ff0;
+  }
+
+  /* anim */
+  .imgContent{
+    position: relative;
+  }
+  imgContent img{
+    vertical-align: middle;
+  }
+  .imgContent .img, #overviewText{
+    transition: all .4s ease;
+    -moz-transition: all .5s ease;
+    -ms-transition: all .4s ease;
+    -webkit-transition: all .4s ease;
+    -o-transition: all .4s ease;
+  }
+
+  .imgContent{
+    display: block;
+    padding-bottom:50%;
+    overflow: hidden;
+    background-color: #212121;
+    cursor: pointer;
+    text-align: center;
+  }
+  .imgContent .img{
+        position: absolute;
+    top:0;
+    left: 0;
+
+    display: block;
+    width:100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+  }
+  .imgContent:hover .img{
+    opacity: .5;
+    transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -ms-transform: scale(1.5); /* IE 9 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=1.5, M12=0, M21=0, M22=1.5, SizingMethod='auto expand')"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.Matrix(M11=1.5, M12=0, M21=0, M22=1.5, SizingMethod='auto expand'); /* IE6 and 7 */ 
+  }
+  #textDetail{
+    display: none;
+  }
+  #overviewText{
+    opacity: 0;
+    position: absolute;
+    width:100%;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  .imgContent:hover #overviewText{
+    opacity:1;
+  }
+  </style>
+<div class$="{{theme}}">
+  <div class="imgContent" on-click="handleClick">
+    <div class="img" style$="background-image:url({{imgUrl}});"></div>
+    <div id="overviewText">{{altText}}</div>
+    <!--    <img src="{{imgUrl}}" alt="{{altText}}" on-click="handleClick"> -->
+  </div>
+  <div id="textDetail">
+    <p>Category: {{category}}</p>
+    {{description}} 
+    <slot></slot>  
+    <!-- <a href="#">link within shadow dom</a> -->
+  </div>
+  </div>
+</template>
+
+<script>var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Define the class for a new element called gallery-element
+var GalleryElement = function (_Polymer$Element) {
+  _inherits(GalleryElement, _Polymer$Element);
+
+  _createClass(GalleryElement, null, [{
+    key: 'is',
+    get: function get() {
+      return "gallery-element";
+    }
+  }, {
+    key: 'properties',
+    get: function get() {
+      return {
+        altText: String,
+        textContent: String,
+        description: String,
+        category: String,
+        imgUrl: String,
+        theme: String,
+        active: {
+          type: Boolean,
+          value: false
+        }
+      };
+    }
+  }]);
+
+  function GalleryElement() {
+    _classCallCheck(this, GalleryElement);
+
+    return _possibleConstructorReturn(this, (GalleryElement.__proto__ || Object.getPrototypeOf(GalleryElement)).call(this));
+    //      this.textContent = "I'm a gallery-element.";
+  }
+
+  _createClass(GalleryElement, [{
+    key: 'connectedCallback',
+    value: function connectedCallback() {
+      _get(GalleryElement.prototype.__proto__ || Object.getPrototypeOf(GalleryElement.prototype), 'connectedCallback', this).call(this);
+
+      //callback to parent dom
+
+      // …
+    }
+  }, {
+    key: 'handleClick',
+    value: function handleClick() {
+      if (!this.active) {
+        console.log('Make me active');
+      } else {
+        console.log('make me inactive');
+      }
+      this.active = !this.active;
+    }
+  }]);
+
+  return GalleryElement;
+}(Polymer.Element);
+// Register the new element with the browser
+
+
+customElements.define(GalleryElement.is, GalleryElement);</script>
+</dom-module>
+</body></html>

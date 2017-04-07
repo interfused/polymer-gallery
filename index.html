@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+	<title>gallery-project</title>
+	<meta name="description" content="gallery-project description">
+
+	<!-- See https://goo.gl/OOhYW5 -->
+	<link rel="manifest" href="manifest.json">
+	<script src="bower_components/jquery/dist/jquery.min.js"></script> 
+	<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<link rel="import" href="src/gallery-project/gallery-project.html">
+	<style>
+	body{font-family: sans-serif;}
+	h1,h2,h3,h4,h5,h6,p, .container{max-width:960px; margin: 0 auto;}
+	</style>
+</head>
+<body>
+	<div id="mainArea">
+		<h1>Gallery Component</h1>
+		
+	</div>
+
+	<script>
+	function mainDomFn(){
+		console.log('i am a main dom function');
+	}
+// $('body').append('added by jquery');
+$.getJSON( "sample.json", function( data ) {
+	var items = [];
+	var items2 = [];//full object
+	var tmpObj = data;
+	$.each( data.gallery_items, function( key, val ) {
+		items.push( "<li id='" + key + "'>" + val.imgURL + "</li>" );
+		items2.push(val);
+	});
+  
+console.log('len: '+data.gallery_items.length);
+console.log('type: '+typeof(data) );
+
+//$("#mainArea").append('<gallery-project prop1="json src should now be an object" jsonsrc="'+items+'"></gallery-project>');
+//var myEl = new GalleryProject();
+var myEl = document.createElement('gallery-project');
+myEl.prop1="This gallery components project takes a JSON formatted file and creates categorized tabs.  Additionally, allows for custom shared styles and filters content based off of a selected category.";
+myEl.jsonsrc = items2;
+//myEl.theme = 'theme1';
+$("#mainArea").append(myEl);
+
+}); 
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!-- <link rel="import"  href="https://polygit.org/polymer+2.0.0-rc.2/components/polymer/polymer-element.html"> --><html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+    <link rel="import" href="../src/gallery-element.html">
+<!-- https://www.polymer-project.org/2.0/docs/devguide/registering-elements#lifecycle-callbacks -->
+</head><body><dom-module id="gallery-project">
+
+<template>
+  <style>
+  :host {
+    display: block;
+  }
+  </style>
+  <h2>Hello [[prop1]]</h2>
+  <p>Your source file is: [[jsonsrc]]</p>
+  <div class="galleryBlock">
+    <div id="categories"><h3>Categories</h3>
+      <template is="dom-repeat" items="{{categoriesArr}}">
+     category item<br>
+</template>
+    </div>
+  <!-- content div -->
+  </div>
+  <h3>Actual Content</h3>
+  <!--
+ 
+  <gallery-element category="destinations" alt-text="This is my first alt text" img-url="https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2014/10/yosemite.jpg">
+  <div slot="description">
+    This is the description. <h2>Standard html</h2> applies with <a href="http://google.com" >Links and all</a>
+  </div>
+</gallery-element>
+
+<gallery-element  alt-text="This is my second alt text" img-url="http://www.niagarafallslive.com/wp-content/uploads/2013/09/american-falls-1.jpg"></gallery-element>
+ 
+-->
+  
+
+
+
+
+</template>
+
+<script>
+jsonData = {};
+galleryItems = [];
+categoriesArr = [];
+
+function onlyUnique(value, index, self) {
+    //http://stackoverflow.com/questions/1960473/unique-values-in-an-array
+    return self.indexOf(value) === index;
+}
+
+function loadJSON(path, success, error) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                if (success)
+                    //                  jsonData = JSON.parse(xhr.responseText);
+                    success(JSON.parse(xhr.responseText));
+            } else {
+                if (error) error(xhr);
+            }
+        }
+    };
+    xhr.open("GET", path, true);
+    xhr.send();
+}
+
+function setupAllCategories(jsonObj) {
+    galleryItems = jsonData.gallery_items;
+    var distinct = [];
+    for (i = 0; i < galleryItems.length; i++) {
+        if (distinct.indexOf(galleryItems[i].category) === -1) {
+            distinct.push(galleryItems[i].category);
+        }
+    }
+    //console.log('setupAllCategories for elements: '+jsonObj.gallery_items.length);
+    console.log('setupAllCategories for elements: ' + distinct.length);
+    //return unique array
+    return distinct;
+}</script>
+
+<script>var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Define the class for a new element called gallery-project
+var GalleryProject = function (_Polymer$Element) {
+  _inherits(GalleryProject, _Polymer$Element);
+
+  _createClass(GalleryProject, null, [{
+    key: 'is',
+    get: function get() {
+      return "gallery-project";
+    }
+  }, {
+    key: 'properties',
+    get: function get() {
+      return {
+        prop1: String,
+        jsonsrc: String
+      };
+    }
+  }]);
+
+  function GalleryProject() {
+    _classCallCheck(this, GalleryProject);
+
+    return _possibleConstructorReturn(this, (GalleryProject.__proto__ || Object.getPrototypeOf(GalleryProject)).call(this));
+    //      this.textContent = "I'm a gallery-project.";
+  }
+
+  _createClass(GalleryProject, [{
+    key: 'connectedCallback',
+    value: function connectedCallback() {
+      _get(GalleryProject.prototype.__proto__ || Object.getPrototypeOf(GalleryProject.prototype), 'connectedCallback', this).call(this);
+
+      console.log('connected callback: ' + this.jsonsrc);
+
+      loadJSON(this.jsonsrc, function (data) {
+        //  console.log(data);
+        jsonData = data;
+        console.log(jsonData);
+        categoriesArr = setupAllCategories(jsonData);
+      }, function (xhr) {
+        console.error(xhr);
+      });
+
+      // …
+    }
+  }, {
+    key: 'handleClick',
+    value: function handleClick() {
+      if (!this.active) {
+        console.log('Make me active');
+      } else {
+        console.log('make me inactive');
+      }
+      this.active = !this.active;
+    }
+  }]);
+
+  return GalleryProject;
+}(Polymer.Element);
+// Register the new element with the browser
+
+
+customElements.define(GalleryProject.is, GalleryProject);</script>
+</dom-module>
+</body></html>

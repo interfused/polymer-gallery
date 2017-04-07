@@ -1,0 +1,7 @@
+{
+  "name": "gallery-project",
+  "short_name": "gallery-project",
+  "description": "gallery project test",
+  "start_url": "/",
+  "display": "standalone"
+}
