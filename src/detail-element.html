@@ -190,8 +190,6 @@ connectedCallback() {
   }
 
   handleClick(el) {
-    console.log('close me');
-    console.log(this);
     var tgt = this.$.detail;
     /*
     /////works
@@ -199,7 +197,6 @@ connectedCallback() {
     console.log(tmp);
    $(tmp).css('opacity','.5');
    */
- //for some reason fadeout does not work though other jquery animations do 
  $(tgt).hide();
 }
 

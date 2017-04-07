@@ -145,39 +145,26 @@ function customClass(idx) {
 
     constructor() {
       super();
-      console.log('constructor: '+this.jsonsrc+' with len: '+this.jsonsrc.length);
     }
 
     ready(){
       super.ready();
-      console.log('i am ready: '+this.jsonsrc+' with length: '+this.jsonsrc.length);
-
-      //same as above for loop except functional programming style
       this.categories_arr = this.jsonsrc.map(function(item){
         return item.category;
       });
       //add 'all' string to the beginning
       this.categories_arr.unshift("all"); 
 
-      //functional programming filter
+      //filter unique
       this.categories_arr = this.categories_arr.filter(onlyUnique);
 
-      console.log('categories: ' + this.categories_arr);
       //set active
       this.items_arr = this.jsonsrc;
 
-      //// NEED TO SET INITIAL ACTIVE BUTTON
-      //document.getElementsByID("btn_0").classList.add('active');
-       var tmpBtn = Polymer.dom(this.root).querySelector('#btn_3');
-       console.log('tmpBtn: '+tmpBtn);
-         var tgt2 = this.$.categories;
-         console.log('test2: '+tgt2.hasChildNodes());
-       //tmpBtn.classList.add('active');
     }
 
     connectedCallback() {
       super.connectedCallback();
-      console.log('connected callback: '+this.jsonsrc.length);
         //callback to parent dom
        // mainDomFn();
     // …
@@ -189,46 +176,15 @@ console.log('setup new categories: '+newValue);
 }
 
 handleItemClick(el){
-  console.log('/////HANDLE CLICK ITEM');
-  console.log(el.target.imgUrl);
   this.activeObj = el.target;
   this.activeObj.isactive=true;
   $(this.$.galleryWrapper).hide().fadeIn();
   $("html, body").animate({ scrollTop: 0 }, 500);
-  /*
-  //var newEl = new DetailElement();
-  var newEl = document.createElement('detail-element');
-  newEl.altText = el.target.altText;
-  newEl.imgUrl = el.target.imgUrl;
-  newEl.category=el.target.category;
-  newEl.theme= this.theme;
-  newEl.description = el.target.description;
-
-  var tgt = this.$.galleryWrapper;
-  */
-/*
-//WORKING!!!! 
-//  var node = document.createTextNode("This is new.");
-//  tgt.appendChild(node);
-*/
-/*
-  console.log('detail item clicked: '+this.activeObj.imgUrl);
-  $("html, body").animate({ scrollTop: 0 }, 500,function(){
   
-    while (tgt.hasChildNodes()) {
-    tgt.removeChild(tgt.lastChild);
-}
-
-    tgt.appendChild(newEl);
-    
-    $(tgt).hide().fadeIn();
-  });
-  */
 }
 themeSwitcher(el){
 
   this.theme = el.target.getAttribute('data-theme-name');
-    console.log('themeSwitcher: '+ this.theme);
     Polymer.updateStyles();
 }
 handleCategoryClick(el) {
@@ -237,9 +193,8 @@ this.activeCatIndex = el.target.getAttribute("data-idx");
 this.activeCategory = el.target.textContent;
 tmpActiveCategory = this.activeCategory;
 this.activeObj={};
-console.log('Make this category active: ' +this.activeCategory+' for index: '+this.activeCatIndex);
 var btns = el.target.parentElement.getElementsByTagName("button");
-console.log('num of buttons: '+btns.length);
+
         //remove class from existing buttons        
         for(var i=0;i<btns.length;i++){
           btns[i].classList.remove("active");
@@ -247,7 +202,6 @@ console.log('num of buttons: '+btns.length);
         el.target.classList.add("active");
         if(this.activeCategory != 'all'){
           this.items_arr = this.jsonsrc.filter( function(val){
-            console.log('within filter: ');
             return val.category === tmpActiveCategory;
           });
         }else{
@@ -257,6 +211,6 @@ console.log('num of buttons: '+btns.length);
 
     }
   // Register the new element with the browser
-  customElements.define(GalleryProject.is, GalleryProject);
+  window.customElements.define(GalleryProject.is, GalleryProject);
   </script>
 </dom-module>

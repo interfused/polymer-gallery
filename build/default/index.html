@@ -40,8 +40,8 @@ $.getJSON("sample.json", function (data) {
 	console.log('type: ' + (typeof data === "undefined" ? "undefined" : _typeof(data)));
 
 	//$("#mainArea").append('<gallery-project prop1="json src should now be an object" jsonsrc="'+items+'"></gallery-project>');
-	//var myEl = new GalleryProject();
-	var myEl = document.createElement('gallery-project');
+	var myEl = new GalleryProject();
+	//var myEl = document.createElement('gallery-project');
 	myEl.prop1 = "This gallery components project takes a JSON formatted file and creates categorized tabs.  Additionally, allows for custom shared styles and filters content based off of a selected category.";
 	myEl.jsonsrc = items2;
 	//myEl.theme = 'theme1';
