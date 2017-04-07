@@ -1,4 +1,6 @@
-# \<gallery-project\>
+<<<<<<< HEAD
+# polymer-gallery
+test
 
 gallery project test
 
