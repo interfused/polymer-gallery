@@ -1,8 +1,7 @@
-<<<<<<< HEAD
-# polymer-gallery
-test
+# Polymer Gallery (polymer v2)
+The purpose of this basic app is to test polymer and component based architecture. This gallery components project takes a JSON formatted file and creates categorized tabs. Additionally, allows for custom shared styles and filters content based off of a selected category. Though the existing polymer components set available at is far more dynamic stylistically, the purpopse of this exercise was to create polymer elements from scratch and be able to modify / theme accordingly.
 
-gallery project test
+For more information on polymer, please visit the [Polymer Project](https://www.polymer-project.org/) 
 
 ## Install the Polymer-CLI
 

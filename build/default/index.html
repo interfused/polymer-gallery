@@ -2,48 +2,58 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-	<title>gallery-project</title>
+	<title>Polymer Gallery Project</title>
 	<meta name="description" content="gallery-project description">
 
 	<!-- See https://goo.gl/OOhYW5 -->
 	<link rel="manifest" href="manifest.json">
+	<script src="src/js/browser-detect.js"></script>
 	<script src="bower_components/jquery/dist/jquery.min.js"></script> 
 	<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css">
 	<link rel="import" href="src/gallery-project/gallery-project.html">
 	<style>
 	body{font-family: sans-serif;}
 	h1,h2,h3,h4,h5,h6,p, .container{max-width:960px; margin: 0 auto;}
+	header{
+		background-color: #222;
+		color: #ccc;
+		padding: 2em 0;
+		margin-bottom: 2em;
+	}
+	header h1, header h2{
+		text-align: center;
+		color: #eee;
+	}
 	</style>
 </head>
 <body>
 	<div id="mainArea">
+		<header>
 		<h1>Gallery Component</h1>
-		
+		<p>The purpose of this basic app is to test polymer and component based architecture. 
+		This gallery components project takes a JSON formatted file and creates categorized tabs. Additionally, allows for custom shared styles and filters content based off of a selected category. Though the existing polymer components set available at is far more dynamic stylistically, the purpopse of this exercise was to create polymer elements from scratch and be able to modify / theme accordingly.</p>
+	</header>
 	</div>
 
-	<script>var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	<script>
 
-function mainDomFn() {
-	console.log('i am a main dom function');
-}
-// $('body').append('added by jquery');
 $.getJSON("sample.json", function (data) {
-	var items = [];
-	var items2 = []; //full object
+	var items = []; //full object
 	var tmpObj = data;
 	$.each(data.gallery_items, function (key, val) {
-		items.push("<li id='" + key + "'>" + val.imgURL + "</li>");
-		items2.push(val);
+		items.push(val);
 	});
 
-	console.log('len: ' + data.gallery_items.length);
-	console.log('type: ' + (typeof data === "undefined" ? "undefined" : _typeof(data)));
+	//dynamic element creation
+	if (/Chrome/.test(navigator.userAgent)) {
+		var myEl = new GalleryProject();
+	} else {
+		var myEl = document.createElement('gallery-project');
+	}
 
-	//$("#mainArea").append('<gallery-project prop1="json src should now be an object" jsonsrc="'+items+'"></gallery-project>');
-	var myEl = new GalleryProject();
-	//var myEl = document.createElement('gallery-project');
-	myEl.prop1 = "This gallery components project takes a JSON formatted file and creates categorized tabs.  Additionally, allows for custom shared styles and filters content based off of a selected category.";
-	myEl.jsonsrc = items2;
+	myEl.setAttribute('prop1', "Dynamically passed parameters/text can be added as well.");
+	myEl.jsonsrc = items;
 	//myEl.theme = 'theme1';
 	$("#mainArea").append(myEl);
 });</script>
